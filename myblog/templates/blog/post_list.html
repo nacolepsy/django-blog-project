@@ -1,0 +1,37 @@
+<html>
+<head><title>Post List</title></head>
+<body>
+<h4></h4>
+{% extends "blog/base.html"%}
+{% block content %}
+
+{% for post in posts %}
+	<h4>
+		<a href="/blog/posts/{{ post.id }}/true"><!-- this is the worst, but simplest way to link to the specific post.
+                                                     Read the document mentioned in the instructions for more info-->
+			{{ post.title }}
+		</a>
+	</h4>
+	<p class="big">
+	<ul>
+		<li>
+			Created: {{ post.created_date }}
+		</li>
+		
+		<li>
+			Last updated: {{ post.update_date }}
+		</li>
+		
+		<li>
+			Details: {{ post.limitpost }} <!-- replace body_first_60 with whatever you called your
+                                          method to get the first 60 characters of the body!-->
+		</li>
+		
+	</ul>
+</p>
+	
+{% endfor %}
+
+{% endblock  %}
+
+</body>

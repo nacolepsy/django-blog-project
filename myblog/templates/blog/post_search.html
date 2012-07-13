@@ -1,0 +1,30 @@
+<html>
+<head><title>Search Details</title></head>
+<body>
+{% extends "blog/base.html"%}
+{% block content %}
+
+
+			
+	<p class="big">
+	
+	<ul>	
+		<li>
+			This text: ({{ word}}) can be found in :
+
+		</li>
+{% for text in post %}
+		<li>
+			{{text.body_text}}
+		</li>	
+		
+{% endfor %}		
+		
+	</ul>
+</p>
+
+{% endblock %}
+
+</body>
+
+

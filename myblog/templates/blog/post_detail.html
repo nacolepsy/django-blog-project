@@ -1,0 +1,55 @@
+<html>
+<head><title>Post Details</title></head>
+<body>
+{% extends "blog/base.html" %}
+{% block content %}
+
+
+	<h4>
+			
+		
+	</h4>
+	<p class="big">
+	<ul>	
+		
+		<li>
+		Post: {{ posts.body_text }}
+		</li>
+		
+		
+		
+		
+		
+	</ul>
+	</p>
+
+{% for comment in comments %}
+	<p class="big">
+	<ul>
+		<ul>
+
+			<li>
+				Comment: {{ comment.body }}
+		</ul>	</li>
+	</ul>
+	<div>
+	<a href="/blog/comments/{{ comment.id }}/edit">
+	Edit Comment
+	</a>
+	</div>
+
+	</p>
+{% endfor %}
+<h3>New comment:</h3>
+<div>
+<form method='post' action="">
+{{ form.as_p }}
+<input type='submit' name='Submit'>
+</form>
+</div>
+
+{% endblock %}
+
+</body>
+
+
