@@ -46,17 +46,24 @@ def post_detail(request, id, showComments=False):
     c = Context({'posts':post, 'comments':comment,'form' : form})
     return HttpResponse(t.render(c))
 
-
-def edit_comment(request, id):
+@csrf_exempt
+def edit_comment(request, id, edit):
 	edit = Comments.objects.get(pk=id)
-	t = loader.get_template('blog/edit_comment.html')
-	c = Context({'posts':edit })
-	return HttpResponse(t.render(c))
-
-	#HttpResponseRedirect(get_absolute_url())
-
 	
-
+    	if request.method == 'POST':
+		edit = Comments(post=edit)
+        	form = CommentForm(request.POST, instance=edit)
+        	if form.is_valid():
+			form.save()
+		return HttpResponseRedirect(request.path)
+	else:
+		form = CommentForm(instance=edit)
+	t = loader.get_template('blog/edit_comment.html')
+	c = Context({'posts':edit, 'form' : form })
+	return HttpResponse(t.render(c))
+"""	
+311 unsub
+"""
     
 def post_search(request,  mysearch):
     searchtxt = Post.objects.filter(body_text__contains=str(mysearch))
