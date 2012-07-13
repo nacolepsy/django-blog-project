@@ -47,15 +47,15 @@ def post_detail(request, id, showComments=False):
     return HttpResponse(t.render(c))
 
 @csrf_exempt
-def edit_comment(request, id, edit):
+def edit_comment(request, id):
 	edit = Comments.objects.get(pk=id)
 	
     	if request.method == 'POST':
-		edit = Comments(post=edit)
+		#edit = Comments(post=edit)
         	form = CommentForm(request.POST, instance=edit)
         	if form.is_valid():
 			form.save()
-		return HttpResponseRedirect(request.path)
+		return HttpResponseRedirect(edit.post.get_absolute_url())
 	else:
 		form = CommentForm(instance=edit)
 	t = loader.get_template('blog/edit_comment.html')
