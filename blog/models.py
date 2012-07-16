@@ -28,13 +28,15 @@ class Post(models.Model):
 		return self.title
 	def limitpost(self):
 		return self.body_text[:60]
-
+	def get_absolute_url(self):
+		return "/blog/posts/%i/true" % self.id
+"""
 	@models.permalink
 	def get_absolute_url(self):
 		return ('body',(),
 			{'id':self.id,'showComments':'true/'})
 
-
+"""
 
 class Comments(models.Model):
 	author=models.CharField(max_length=50)

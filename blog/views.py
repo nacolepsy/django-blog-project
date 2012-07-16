@@ -8,14 +8,15 @@ from django.http import HttpResponse
 
 from models import Post, Comments 
 
-
+#10
+"""
 def post_list(request):
 	posts = Post.objects.all()
 	t = loader.get_template('blog/post_list.html')
 	c = Context({'posts':posts })
 	return HttpResponse(t.render(c))
 
-
+"""
 def post_list(request):
 	posts = Post.objects.all()
 	t = loader.get_template('blog/post_list.html')
@@ -31,20 +32,27 @@ class CommentForm(ModelForm):
 
 @csrf_exempt
 def post_detail(request, id, showComments=False):
-    post=Post.objects.get(pk=id)
-    comment=Comments.objects.filter(post=id)
-    if request.method == 'POST':
-	comment = Comments(post=post)
-        form = CommentForm(request.POST, instance=comment)
-        if form.is_valid():
-	      form.save()
-	return HttpResponseRedirect(request.path)
+    if not request.user.is_authenticated():
+       	return HttpResponseRedirect('/reg/login/?next=/blog/post_list%s' % request.path)
+
+
+		#return HttpResponseRedirect('/reg/login/' % request.path)
+
     else:
-	 form = CommentForm()
-    
-    t = loader.get_template('blog/post_detail.html') 
-    c = Context({'posts':post, 'comments':comment,'form' : form})
-    return HttpResponse(t.render(c))
+	post=Post.objects.get(pk=id)
+	comment=Comments.objects.filter(post=id)
+	if request.method == 'POST':
+	    comment = Comments(post=post)
+	    form = CommentForm(request.POST, instance=comment)
+	    if form.is_valid():
+		form.save()
+		return HttpResponseRedirect(request.path)
+	else:
+	    form = CommentForm()
+	    
+	    t = loader.get_template('blog/post_detail.html') 
+	    c = Context({'posts':post, 'comments':comment,'form' : form})
+	    return HttpResponse(t.render(c))
 
 @csrf_exempt
 def edit_comment(request, id):
@@ -58,19 +66,25 @@ def edit_comment(request, id):
 		return HttpResponseRedirect(edit.post.get_absolute_url())
 	else:
 		form = CommentForm(instance=edit)
+#60
 	t = loader.get_template('blog/edit_comment.html')
 	c = Context({'posts':edit, 'form' : form })
 	return HttpResponse(t.render(c))
 """	
 311 unsub
 """
+def my_view(request):
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect('reg/login/?next=%s' % request.path)
+
+
     
 def post_search(request,  mysearch):
     searchtxt = Post.objects.filter(body_text__contains=str(mysearch))
     t = loader.get_template('blog/post_search.html')
     c = Context({'post':searchtxt, 'word':mysearch })
     return HttpResponse(t.render(c))
-    
+   
 
 
 def home(request):
