@@ -1,6 +1,6 @@
 # Create your views here.
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseRedirect
-
+from django.template import RequestContext
 from django import forms
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render_to_response
@@ -25,7 +25,7 @@ def do_login(request):
 			form = LoginForm()
 			#return HttpResponseRedirect('/reg/login/')
 			
-			return render_to_response('reg/login.html', {'form': form,'logged_in': request.user.is_authenticated()})
+			return render_to_response('reg/login.html', {'form': form,'logged_in': request.user.is_authenticated()},RequestContext(request))
 		  	#return render_to_response('blog/post_list.html', {'form': form,'logged_in': request.user.is_authenticated()})
 #24 		
 		else:

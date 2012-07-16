@@ -1,7 +1,8 @@
-#coding="utf-8"
 # Django settings for myblog project.
 import os
 SITE_ROOT = os.path.dirname(os.path.realpath(__file__))
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -10,16 +11,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-
-
-import dj_database_url
-DATABASES = {
-	'default':dj_database_url.config(
-			default="sqlite:/blog_dev.db")
-	   }
-
-
-"""
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -30,7 +22,11 @@ DATABASES = {
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
-"""
+'''
+
+import dj_database_url
+DATABASES = {'default' : dj_database_url.config(default="sqlite:/blog_dev.db")}
+
 
 
 # Local time zone for this installation. Choices can be found here:
@@ -40,8 +36,8 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-#TIME_ZONE = 'America/Chicago'
 TIME_ZONE = 'Africa/Accra'
+
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
@@ -74,13 +70,14 @@ MEDIA_URL = ''
 # Example: "/home/media/media.lawrence.com/static/"
 STATIC_ROOT = 'static/'
 
+
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
 # Additional locations of static files
-STATICFILES_DIRS = (
-      os.path.join(SITE_ROOT, 'assets'),
+STATICFILES_DIRS = ( os.path.join(SITE_ROOT, 'assets'),
+
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -95,7 +92,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '(g085xsalmp3=2vjq-j+it()1raaemhq5-_*k^g=20jv&amp;vz6zb'
+SECRET_KEY = '0b0d3^xu@1(k0$981m#$gkbuf9p0l_$=2vy(-=lk^1nia24at5'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -110,6 +107,8 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    #'instructors.tools.RawResponseMiddleware',
+
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -120,11 +119,10 @@ ROOT_URLCONF = 'myblog.urls'
 WSGI_APPLICATION = 'myblog.wsgi.application'
 
 TEMPLATE_DIRS = (
-	os.path.join(SITE_ROOT,'templates'),
+      os.path.join(SITE_ROOT,'templates'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-	
 )
 
 INSTALLED_APPS = (
@@ -136,10 +134,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'blog',
     'reg',
-    'django.contrib.admin',
-
     # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
