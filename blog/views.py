@@ -30,10 +30,8 @@ def post_detail(request, id, showComments=False):
        	return HttpResponseRedirect('/reg/login/')
 	#return HttpResponseRedirect('/reg/login/?next=/blog/post_list%s' % request.path)
     else:
-	post=Post.objects.filter(pk=id)
+	post=Post.objects.get(pk=id)
 	comment=Comments.objects.filter(post=id)
-	for p in post:
-            wanted_post=p
 	if request.method == 'POST':
 	    comment = Comments(post=wanted_post)
 	    comment.author= request.user
