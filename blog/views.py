@@ -27,11 +27,8 @@ class CommentForm(ModelForm):
 @csrf_exempt
 def post_detail(request, id, showComments=False):
     if not request.user.is_authenticated():
-       	return HttpResponseRedirect('/reg/login/?next=/blog/post_list%s' % request.path)
-
-
-		#return HttpResponseRedirect('/reg/login/' % request.path)
-
+       	return HttpResponseRedirect('/reg/login/')
+	#return HttpResponseRedirect('/reg/login/?next=/blog/post_list%s' % request.path)
     else:
 	post=Post.objects.filter(pk=id)
 	comment=Comments.objects.filter(post=id)
@@ -39,7 +36,7 @@ def post_detail(request, id, showComments=False):
             wanted_post=p
 	if request.method == 'POST':
 	    comment = Comments(post=wanted_post)
-	    comment.name= request.user
+	    comment.author= request.user
 	    form = CommentForm(request.POST, instance=comment)
 	    if form.is_valid():
 		form.save()

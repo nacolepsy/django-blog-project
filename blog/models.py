@@ -1,4 +1,3 @@
-#from django.contrib import admin
 from django.db import models
 from django.contrib import admin
 import re
@@ -21,12 +20,10 @@ class Post(models.Model):
 	category = models.ForeignKey(Category)
 	author=models.CharField(max_length=50)
 	body_text = models.TextField()
-	#created_date = models.DateField()
 	created_date = models.DateField(auto_now=True)
 
 	author = models.ManyToManyField(Author)
 	update_date = models.DateField(auto_now=True)
-	#update_date = models.DateTimeField(auto_now_add=True, blank=True)	
 	def __unicode__(self):
 		return self.title
 	def limitpost(self):
