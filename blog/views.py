@@ -33,7 +33,7 @@ def post_detail(request, id, showComments=False):
 	post=Post.objects.get(pk=id)
 	comment=Comments.objects.filter(post=id)
 	if request.method == 'POST':
-	    comment = Comments(post=wanted_post)
+	    comment = Comments(post=post)
 	    comment.author= request.user
 	    form = CommentForm(request.POST, instance=comment)
 	    if form.is_valid():
