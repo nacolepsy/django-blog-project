@@ -21,26 +21,23 @@ class Post(models.Model):
 	category = models.ForeignKey(Category)
 	author=models.CharField(max_length=50)
 	body_text = models.TextField()
-	created_date = models.DateField()
+	#created_date = models.DateField()
+	created_date = models.DateField(auto_now=True)
+
 	author = models.ManyToManyField(Author)
-	update_date = models.DateField()	
+	update_date = models.DateField(auto_now=True)
+	#update_date = models.DateTimeField(auto_now_add=True, blank=True)	
 	def __unicode__(self):
 		return self.title
 	def limitpost(self):
 		return self.body_text[:60]
 	def get_absolute_url(self):
 		return "/blog/posts/%i/true" % self.id
-"""
-	@models.permalink
-	def get_absolute_url(self):
-		return ('body',(),
-			{'id':self.id,'showComments':'true/'})
 
-"""
 
 class Comments(models.Model):
 	author=models.CharField(max_length=50)
-	comment_date=models.DateField()
+	comment_date=models.DateField(auto_now=True)
 	post=models.ForeignKey(Post)
 	body=models.TextField()
 	def __unicode__(self):
@@ -65,19 +62,13 @@ class PostAdmin(admin.ModelAdmin):
 	ordering = ('title',)
 	inlines = [CommentInline] 	
 
-	"""
-	class title_first_10(self):
-		return self.title[:10]
-	list_display = ('title_first_10',)
-	"""
-		#class Admin:
-		#	pass
 	
 
 
 
+
 class Reply(models.Model):
-	reply_date=models.DateField()
+	reply_date=models.DateField(auto_now=True)
 	author=models.ForeignKey(Author)
         comment=models.ManyToManyField(Comments)
 	body=models.TextField()
@@ -86,12 +77,4 @@ class Reply(models.Model):
 
 
 
-	
-"""
-		title = models.CharField(max_length=100)
-		date_created = models.DateField()
-		date_updated = models.DateField()
-		search = models.DateField()
-	def __unicode__(self):
-		return self.title
-"""
+

@@ -9,14 +9,7 @@ from django.http import HttpResponse
 from models import Post, Comments 
 
 #10
-"""
-def post_list(request):
-	posts = Post.objects.all()
-	t = loader.get_template('blog/post_list.html')
-	c = Context({'posts':posts })
-	return HttpResponse(t.render(c))
 
-"""
 def post_list(request):
 	posts = Post.objects.all()
 	t = loader.get_template('blog/post_list.html')
@@ -26,8 +19,9 @@ def post_list(request):
 class CommentForm(ModelForm):
 	class Meta:
 		model = Comments
-		exclude=['post']
-
+		exclude=['post','author']
+		
+		
 
 
 @csrf_exempt
@@ -39,10 +33,13 @@ def post_detail(request, id, showComments=False):
 		#return HttpResponseRedirect('/reg/login/' % request.path)
 
     else:
-	post=Post.objects.get(pk=id)
+	post=Post.objects.filter(pk=id)
 	comment=Comments.objects.filter(post=id)
+	for p in post:
+            wanted_post=p
 	if request.method == 'POST':
-	    comment = Comments(post=post)
+	    comment = Comments(post=wanted_post)
+	    comment.name= request.user
 	    form = CommentForm(request.POST, instance=comment)
 	    if form.is_valid():
 		form.save()
@@ -51,8 +48,9 @@ def post_detail(request, id, showComments=False):
 	    form = CommentForm()
 	    
 	    t = loader.get_template('blog/post_detail.html') 
-	    c = Context({'posts':post, 'comments':comment,'form' : form})
+	    c = Context({'posts':post, 'comments':comment,'form' : form,'user':request.user})
 	    return HttpResponse(t.render(c))
+
 
 @csrf_exempt
 def edit_comment(request, id):
@@ -76,8 +74,6 @@ def edit_comment(request, id):
 def my_view(request):
 	if not request.user.is_authenticated():
 		return HttpResponseRedirect('reg/login/?next=%s' % request.path)
-
-
     
 def post_search(request,  mysearch):
     searchtxt = Post.objects.filter(body_text__contains=str(mysearch))

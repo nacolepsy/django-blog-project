@@ -14,19 +14,16 @@ class LoginForm(forms.Form):
 @csrf_exempt
 def do_login(request):
     if request.method == 'POST':
-        #YOUR CODE HERE
-	#uname=request.Post['username']
-	#pas=  request.Post['password']
+        #Is the user authentic?
 	user= authenticate(username=request.POST['username'], password=request.POST['password'])
 	
 	if user is not None:
+		#does user exist?
 		if user.is_active:		
 			login(request, user)
 			form = LoginForm()
-			#return HttpResponseRedirect('/reg/login/')
-			
 			return render_to_response('reg/login.html', {'form': form,'logged_in': request.user.is_authenticated()},RequestContext(request))
-		  	#return render_to_response('blog/post_list.html', {'form': form,'logged_in': request.user.is_authenticated()})
+		  	
 #24 		
 		else:
 			return render_to_response('reg/error')

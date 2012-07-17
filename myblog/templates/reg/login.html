@@ -12,20 +12,20 @@ the lab has you make some changes
 {% extends "blog/base.html" %}
 
 {% block content %}
-{% if user.is_authenticated %}
+{% if logged_in %}
 <p>Welcome, {{ user.username }}. Thanks for logging in.</p>
     
 {% else %}
 <p>Welcome, Guest. Please log in.</p>
     
-{% endif %}
+
 <a href='/reg/logout'>logout</a>
   <form action=" " class="well form-inline" method="post" class="well">
 
      {{ form.as_p }}
      <input type="submit" value="Submit" value="Login" class="btn-info"/>
   </form>
-
+{% endif %}
 {% endblock %}
 
 
